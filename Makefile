@@ -80,25 +80,38 @@ $(BUILDDIR)lv2syms:
 ###############################################################################
 # LV2 turtle
 
-$(BUILDDIR)manifest.ttl:
+$(BUILDDIR)manifest.ttl: Makefile
 	@mkdir -p $(BUILDDIR)
 	# generating manifest
 	@echo "@prefix lv2:  <http://lv2plug.in/ns/lv2core#> ." > $(BUILDDIR)manifest.ttl
 	@echo "@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> ." >> $(BUILDDIR)manifest.ttl
-	@for p in eat1 eat2 gen1 gen2 route_1_2 route_1_2 route_2_1 route_2_2 route_2_3 route_3_1 route_3_2 route_3_3; do \
-		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#$$p>" >> $(BUILDDIR)manifest.ttl; \
+	@for p in $(shell seq 1 4); do \
+		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#eat$$p>" >> $(BUILDDIR)manifest.ttl; \
 		echo "  a lv2:Plugin ;" >> $(BUILDDIR)manifest.ttl ;\
 		echo "  lv2:binary <$(LV2NAME)$(LIB_EXT)>;" >> $(BUILDDIR)manifest.ttl; \
 		echo "  rdfs:seeAlso <$(LV2NAME).ttl> ." >> $(BUILDDIR)manifest.ttl; \
 	done
+	@for p in $(shell seq 1 4); do \
+		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#gen$$p>" >> $(BUILDDIR)manifest.ttl; \
+		echo "  a lv2:Plugin ;" >> $(BUILDDIR)manifest.ttl ;\
+		echo "  lv2:binary <$(LV2NAME)$(LIB_EXT)>;" >> $(BUILDDIR)manifest.ttl; \
+		echo "  rdfs:seeAlso <$(LV2NAME).ttl> ." >> $(BUILDDIR)manifest.ttl; \
+	done
+	@for rin in `seq 1 4`; do  for rout in `seq 1 4`; do \
+		if test $${rin} -eq 1 -a $${rout} -eq 1; then continue; fi;\
+		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#route_$${rin}_$${rout}>" >> $(BUILDDIR)manifest.ttl; \
+		echo "  a lv2:Plugin ;" >> $(BUILDDIR)manifest.ttl ;\
+		echo "  lv2:binary <$(LV2NAME)$(LIB_EXT)>;" >> $(BUILDDIR)manifest.ttl; \
+		echo "  rdfs:seeAlso <$(LV2NAME).ttl> ." >> $(BUILDDIR)manifest.ttl; \
+	done; done
 
 
 # NB. the shell scripts are close to max  sh -c "" length
-$(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in
+$(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in Makefile
 	@mkdir -p $(BUILDDIR)
 	# generating TTL #eat
 	@cat ttl/$(LV2NAME).ttl.in > $(BUILDDIR)$(LV2NAME).ttl
-	@for p in $(shell seq 1 2); do \
+	@for p in $(shell seq 1 4); do \
 		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#eat$$p>" >> $(BUILDDIR)$(LV2NAME).ttl; \
 		echo " a lv2:Plugin, lv2:MixerPlugin, doap:Project;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:license <http://usefulinc.com/doap/licenses/gpl>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
@@ -134,7 +147,7 @@ $(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in
 		echo "" >> $(BUILDDIR)$(LV2NAME).ttl;\
 	done
 	# generating TTL #gen
-	@for p in $(shell seq 1 2); do \
+	@for p in $(shell seq 1 4); do \
 		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#gen$$p>" >> $(BUILDDIR)$(LV2NAME).ttl; \
 		echo " a lv2:Plugin, lv2:MixerPlugin, doap:Project;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:license <http://usefulinc.com/doap/licenses/gpl>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
@@ -170,7 +183,7 @@ $(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in
 		echo "" >> $(BUILDDIR)$(LV2NAME).ttl;\
 	done
 	# generating TTL #route
-	@for rin in `seq 1 3`; do  for rout in `seq 1 3`; do \
+	@for rin in `seq 1 4`; do  for rout in `seq 1 4`; do \
 		if test $${rin} -eq 1 -a $${rout} -eq 1; then continue; fi;\
 		echo "<http://gareus.org/oss/lv2/$(LV2NAME)#route_$${rin}_$${rout}>" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " a lv2:Plugin, lv2:MixerPlugin, doap:Project;" >> $(BUILDDIR)$(LV2NAME).ttl;\
@@ -231,6 +244,7 @@ uninstall:
 
 clean:
 	rm -f $(BUILDDIR)manifest.ttl $(BUILDDIR)$(LV2NAME).ttl $(BUILDDIR)$(LV2NAME)$(LIB_EXT) $(BUILDDIR)lv2syms
+	rm -rf $(BUILDDIR)*.dSYM
 	-test -d $(BUILDDIR) && rmdir $(BUILDDIR) || true
 
 .PHONY: clean all install uninstall

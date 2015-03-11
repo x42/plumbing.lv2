@@ -45,16 +45,25 @@ a_instantiate(const LV2_Descriptor*     descriptor,
 	LVAudioPlumbing* self = (LVAudioPlumbing*)calloc(1, sizeof(LVAudioPlumbing));
 	if (!self) return NULL;
 
+	// TODO parse atoi(), check bounds
 	if      (!strcmp(descriptor->URI, PLB_URI "route_1_2")) { self->n_in = 1; self->n_out = 2; }
-	else if (!strcmp(descriptor->URI, PLB_URI "route_1_3")) { self->n_in = 2; self->n_out = 3; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_1_3")) { self->n_in = 1; self->n_out = 3; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_1_4")) { self->n_in = 1; self->n_out = 4; }
 
 	else if (!strcmp(descriptor->URI, PLB_URI "route_2_1")) { self->n_in = 2; self->n_out = 1; }
 	else if (!strcmp(descriptor->URI, PLB_URI "route_2_2")) { self->n_in = 2; self->n_out = 2; }
 	else if (!strcmp(descriptor->URI, PLB_URI "route_2_3")) { self->n_in = 2; self->n_out = 3; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_2_4")) { self->n_in = 2; self->n_out = 4; }
 
 	else if (!strcmp(descriptor->URI, PLB_URI "route_3_1")) { self->n_in = 3; self->n_out = 1; }
 	else if (!strcmp(descriptor->URI, PLB_URI "route_3_2")) { self->n_in = 3; self->n_out = 2; }
 	else if (!strcmp(descriptor->URI, PLB_URI "route_3_3")) { self->n_in = 3; self->n_out = 3; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_3_4")) { self->n_in = 3; self->n_out = 4; }
+
+	else if (!strcmp(descriptor->URI, PLB_URI "route_4_1")) { self->n_in = 4; self->n_out = 1; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_4_2")) { self->n_in = 4; self->n_out = 2; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_4_3")) { self->n_in = 4; self->n_out = 3; }
+	else if (!strcmp(descriptor->URI, PLB_URI "route_4_4")) { self->n_in = 4; self->n_out = 4; }
 	else { free(self); return NULL; }
 
 	return (LV2_Handle)self;
@@ -89,6 +98,7 @@ a_run(LV2_Handle instance, uint32_t n_samples)
 	}
 
 	// copy data if required
+	// TODO reverse sort by map and use temp buffers for x-over inline.
 	for (uint32_t c = 0; c < self->n_out; ++c) {
 		if (map[c] > 0 && self->input[map[c] - 1] != self->output[c]) {
 			memcpy(self->output[c], self->input[map[c] - 1], sizeof(float) * n_samples);

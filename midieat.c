@@ -52,10 +52,17 @@ m_instantiate(const LV2_Descriptor*     descriptor,
 	LVMidiPlumbing* self = (LVMidiPlumbing*)calloc(1, sizeof(LVMidiPlumbing));
 	if (!self) return NULL;
 
+	// TODO parse atoi(), check bounds
 	if      (!strcmp(descriptor->URI, PLB_URI "eat1")) { self->channels = 1; self->midieat = true; }
 	else if (!strcmp(descriptor->URI, PLB_URI "eat2")) { self->channels = 2; self->midieat = true; }
+	else if (!strcmp(descriptor->URI, PLB_URI "eat3")) { self->channels = 3; self->midieat = true; }
+	else if (!strcmp(descriptor->URI, PLB_URI "eat4")) { self->channels = 4; self->midieat = true; }
+
 	else if (!strcmp(descriptor->URI, PLB_URI "gen1")) { self->channels = 1; self->midieat = false; }
 	else if (!strcmp(descriptor->URI, PLB_URI "gen2")) { self->channels = 2; self->midieat = false; }
+	else if (!strcmp(descriptor->URI, PLB_URI "gen2")) { self->channels = 3; self->midieat = false; }
+	else if (!strcmp(descriptor->URI, PLB_URI "gen2")) { self->channels = 4; self->midieat = false; }
+
 	else { free(self); return NULL; }
 
 
