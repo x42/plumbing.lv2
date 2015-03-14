@@ -26,6 +26,7 @@ BUNDLE=plumbing.lv2
 STRIP=strip
 STRIPFLAGS=-s
 STRIPDEPS=
+DSPDEPS=midieat.c route.c
 
 UNAME=$(shell uname)
 ifeq ($(UNAME),Darwin)
@@ -66,7 +67,7 @@ default: all
 
 all: $(BUILDDIR)manifest.ttl $(BUILDDIR)$(LV2NAME).ttl $(BUILDDIR)$(LV2NAME)$(LIB_EXT)
 
-$(BUILDDIR)$(LV2NAME)$(LIB_EXT): $(LV2NAME).c $(STRIPDEPS)
+$(BUILDDIR)$(LV2NAME)$(LIB_EXT): $(LV2NAME).c $(DSPDEPS) $(STRIPDEPS)
 	@mkdir -p $(BUILDDIR)
 	$(CC) $(CPPFLAGS) $(CFLAGS) \
 	  -o $(BUILDDIR)$(LV2NAME)$(LIB_EXT) $(LV2NAME).c \
