@@ -10,6 +10,7 @@ DESTDIR ?=
 PREFIX ?= /usr/local
 CFLAGS ?= $(OPTIMIZATIONS) -Wall -g
 LV2DIR ?= $(PREFIX)/lib/lv2
+STRIP  ?= strip
 
 ###############################################################################
 # HERE BE DRAGONS
@@ -23,7 +24,6 @@ BUNDLE=plumbing.lv2
 ###############################################################################
 # build-system, dependencies & architecture
 
-STRIP=strip
 STRIPFLAGS=-s
 STRIPDEPS=
 DSPDEPS=midieat.c route.c
