@@ -60,8 +60,8 @@ m_instantiate(const LV2_Descriptor*     descriptor,
 
 	else if (!strcmp(descriptor->URI, PLB_URI "gen1")) { self->channels = 1; self->midieat = false; }
 	else if (!strcmp(descriptor->URI, PLB_URI "gen2")) { self->channels = 2; self->midieat = false; }
-	else if (!strcmp(descriptor->URI, PLB_URI "gen2")) { self->channels = 3; self->midieat = false; }
-	else if (!strcmp(descriptor->URI, PLB_URI "gen2")) { self->channels = 4; self->midieat = false; }
+	else if (!strcmp(descriptor->URI, PLB_URI "gen3")) { self->channels = 3; self->midieat = false; }
+	else if (!strcmp(descriptor->URI, PLB_URI "gen4")) { self->channels = 4; self->midieat = false; }
 
 	else { free(self); return NULL; }
 
