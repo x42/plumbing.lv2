@@ -1,7 +1,7 @@
 #include "route.c"
 #include "midieat.c"
 
-const void*
+static const void*
 extension_data(const char* uri)
 {
 	return NULL;
