@@ -118,7 +118,9 @@ $(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in Makefile
 		echo " doap:license <http://usefulinc.com/doap/licenses/gpl>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:maintainer <http://gareus.org/rgareus#me>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:name \"Midi Remover (+$$p audio)\";" >> $(BUILDDIR)$(LV2NAME).ttl;\
+		echo " lv2:requiredFeature urid:map;"  >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " lv2:optionalFeature lv2:hardRTCapable;"  >> $(BUILDDIR)$(LV2NAME).ttl;\
+		echo " lv2:microVersion 0; lv2:minorVersion 1;"  >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " lv2:port" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " [" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo "  a atom:AtomPort, lv2:InputPort;" >> $(BUILDDIR)$(LV2NAME).ttl;\
@@ -154,7 +156,9 @@ $(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in Makefile
 		echo " doap:license <http://usefulinc.com/doap/licenses/gpl>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:maintainer <http://gareus.org/rgareus#me>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:name \"Silent Midi Port (+$$p audio)\";" >> $(BUILDDIR)$(LV2NAME).ttl; \
+		echo " lv2:requiredFeature urid:map;"  >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " lv2:optionalFeature lv2:hardRTCapable;" >> $(BUILDDIR)$(LV2NAME).ttl;\
+		echo " lv2:microVersion 0; lv2:minorVersion 1;"  >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " lv2:port" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " [" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo "  a atom:AtomPort, lv2:OutputPort;" >> $(BUILDDIR)$(LV2NAME).ttl;\
@@ -192,6 +196,7 @@ $(BUILDDIR)$(LV2NAME).ttl: ttl/$(LV2NAME).ttl.in Makefile
 		echo " doap:maintainer <http://gareus.org/rgareus#me>;" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " doap:name \"Route $$rin to $$rout\";" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " lv2:optionalFeature lv2:hardRTCapable;" >> $(BUILDDIR)$(LV2NAME).ttl;\
+		echo " lv2:microVersion 0; lv2:minorVersion 1;"  >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " lv2:port" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		echo " [" >> $(BUILDDIR)$(LV2NAME).ttl;\
 		PN=0;\
