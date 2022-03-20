@@ -8,7 +8,7 @@ Install
 -------
 
 ```bash
-  git clone git://github.com/x42/plumbing.lv2
+  git clone https://github.com/x42/plumbing.lv2
   cd plumbing.lv2
   make
 
