@@ -11,6 +11,7 @@ PREFIX ?= /usr/local
 CFLAGS ?= $(OPTIMIZATIONS) -Wall -g
 LV2DIR ?= $(PREFIX)/lib/lv2
 STRIP  ?= strip
+PKG_CONFIG ?= pkg-config
 
 ###############################################################################
 # HERE BE DRAGONS
@@ -25,6 +26,7 @@ BUNDLE=plumbing.lv2
 # build-system, dependencies & architecture
 
 STRIPFLAGS=-s
+
 STRIPDEPS=
 DSPDEPS=midieat.c route.c
 
@@ -52,12 +54,12 @@ ifneq ($(XWIN),)
 endif
 
 # check for build-dependencies
-ifeq ($(shell pkg-config --exists lv2 || echo no), no)
+ifeq ($(shell $(PKG_CONFIG) --exists lv2 || echo no), no)
   $(error "LV2 SDK was not found")
 endif
 
 override CFLAGS += -fPIC -std=c99
-override CFLAGS += `pkg-config --cflags lv2`
+override CFLAGS += `$PKG_CONFIG) --cflags lv2`
 
 
 ###############################################################################
